@@ -243,6 +243,20 @@
 			$str = preg_replace( '/(<[a-zA-Z]* [^>]*)<strong class="searchword">([^<]*)<\/strong>([^>]*>)/', '$1$2$3', $str);
 		}
 
+		// Get 'em outta tha links! We can only do it this way because we have reasonable control over allowed tags, etc.
+		$tagsInLinks = '/<a ([^>]*)href=\"([^\"]*)<strong class="searchword">([^\"<]+)<\/strong>([^\"]*)\">/'; $i = 0;
+		while(preg_match($tagsInLinks, $str)){
+			if($i > 20){ break; } // No infinite loops!
+				$str = preg_replace(
+					$tagsInLinks,
+					"<a $1href=\"$2$3$4\">",
+					$str
+				);
+			$i++;
+		}
+		// Adding in the quote marks
+		$str = str_replace("<strong class=searchword>", "<strong class=\"searchword\">", $str);
+
 		return $str;
 	}
 	
