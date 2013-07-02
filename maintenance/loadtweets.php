@@ -163,7 +163,7 @@
 			$path = "favorites/list.json?" . $p . "&count=" . $maxCount . ($maxID ? "&max_id=" . $maxID : "");
 			echo l("Retrieving page <strong>#" . $page . "</strong>: <span class=\"address\">" . ls($path) . "</span>\n");
 			$data = $twitterApi->query($path);
-			if(is_array($data) && $data[0] === false){ dieout(l(bad("Error: " . $data[1] . "/" . $data[2]))); }
+			if(is_int($data->errors[0]->code)){ dieout(l(bad("Error: " . $data->errors[0]->code . "/" . $data->errors[0]->message))); }
 			echo l("<strong>" . ($data ? count($data) : 0) . "</strong> total favorite tweets on this page\n");
 			if(!empty($data)){
 				echo l("<ul>");
